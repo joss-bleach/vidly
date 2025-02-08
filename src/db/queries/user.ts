@@ -41,3 +41,7 @@ export const updateUser = async ({
     })
     .where(eq(users.clerkId, clerkId));
 };
+
+export const getUserByClerkId = async ({ clerkId }: { clerkId: string }) => {
+  return await db.select().from(users).where(eq(users.clerkId, clerkId));
+};
