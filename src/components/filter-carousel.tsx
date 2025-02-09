@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 interface FilterCarouselProps {
   value?: string | null;
   isLoading?: boolean;
-  onSelect?: (value: string | null) => void;
+  onSelect: (value: string | null) => void;
   data: {
     value: string;
     label: string;
@@ -21,7 +21,6 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { Badge } from "@/components/ui/badge";
-import { Skeleton } from "@/components/ui/skeleton";
 
 export const FilterCarousel = ({
   value,
@@ -45,19 +44,6 @@ export const FilterCarousel = ({
     });
   }, [api]);
 
-  if (isLoading) {
-    return (
-      <div className="relative w-full">
-        <ul className="flex flex-row items-center gap-3">
-          {Array.from({ length: 15 }).map((_, i) => (
-            <li key={i}>
-              <Skeleton className="h-[30px] w-[100px]" />
-            </li>
-          ))}
-        </ul>
-      </div>
-    );
-  }
   return (
     <div className="relative w-full">
       <div
@@ -72,7 +58,10 @@ export const FilterCarousel = ({
         className="w-full px-12"
       >
         <CarouselContent className="-ml-3">
-          <CarouselItem className="basis-auto pl-3">
+          <CarouselItem
+            onClick={() => onSelect(null)}
+            className="basis-auto pl-3"
+          >
             <Badge
               variant={!value ? "default" : "secondary"}
               className="whitespace no-wrap cursor-pointer rounded-lg px-3 py-1 text-sm"
@@ -83,7 +72,11 @@ export const FilterCarousel = ({
           {!isLoading &&
             data.map((item) => {
               return (
-                <CarouselItem className="basis-auto pl-3" key={item.value}>
+                <CarouselItem
+                  onClick={() => onSelect(item.value)}
+                  className="basis-auto pl-3"
+                  key={item.value}
+                >
                   <Badge
                     variant={value === item.value ? "default" : "secondary"}
                     className="whitespace no-wrap cursor-pointer rounded-lg px-3 py-1 text-sm"

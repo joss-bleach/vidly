@@ -6,14 +6,14 @@ import { HomeView } from "@/modules/home/ui/views/home-view";
 const Page = async ({
   searchParams,
 }: {
-  searchParams: Promise<{ categoryId?: string }>;
+  searchParams: Promise<{ c?: string }>;
 }) => {
-  const { categoryId } = await searchParams;
+  const { c } = await searchParams;
   void trpc.categories.getMany.prefetch();
 
   return (
     <HydrateClient>
-      <HomeView categoryId={categoryId} />
+      <HomeView categoryId={c} />
     </HydrateClient>
   );
 };
