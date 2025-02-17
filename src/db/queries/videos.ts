@@ -51,13 +51,38 @@ export const getVideosByUserId = async ({
 interface CreateVideoProps {
   userId: string;
   title: string;
+  muxStatus: string;
+  muxUploadId: string;
 }
-export const createVideo = async ({ userId, title }: CreateVideoProps) => {
+export const createVideo = async ({
+  userId,
+  title,
+  muxStatus,
+  muxUploadId,
+}: CreateVideoProps) => {
   return await db
     .insert(videos)
     .values({
       userId,
       title,
+      muxStatus: muxStatus,
+      muxUploadId: muxUploadId,
     })
     .returning();
+};
+
+interface UpdateVideoUploadProps {
+  muxAssetId: string;
+  muxStatus: string;
+  uploadId: string;
+}
+export const updateVideoUpload = async ({
+  muxAssetId,
+  muxStatus,
+  uploadId,
+}: UpdateVideoUploadProps) => {
+  return await db
+    .update(videos)
+    .set({ muxAssetId, muxStatus })
+    .where(eq(videos.muxUploadId, uploadId));
 };
